@@ -1,0 +1,37 @@
+{% extends 'forms.html' %}
+
+{% block title %} Inscription {% endblock %}
+
+{% block body %}
+
+<!-- Section d'inscription -->
+
+<section class="base" id="base-signup">
+    <div class="base-content">
+        <div class="form">
+            <h3>
+                Créer un compte <br> pour faire du shopping
+            </h3>
+            
+            <hr class="first">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="email"><h4>Adresse e-mail</h4>{{ form.email }} <hr> </div>
+                <div class="name"><h4>Nom d'utilisateur</h4>{{ form.username }} <hr></div>
+                <div class="password"><h4>Mot de passe</h4>{{ form.password1 }} <hr></div>
+                <div class="password"><h4>Confirmer le mot de passe</h4>{{ form.password2 }} <hr></div>
+
+                <div class="buttons">
+                    <a href="/login"> Connexion</a>
+                    {{ form.submit() }}
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

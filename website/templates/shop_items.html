@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %} Articles de la boutique {% endblock %}
+
+{% block body %}
+
+{% if items | length < 1 %}
+<h3 style="color: white;">Aucun article en boutique</h3>
+
+{% else %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    Articles de la boutique
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Date d'ajout</th>
+                                    <th scope="col">Nom du produit</th>
+                                    <th scope="col">Ancien prix</th>
+                                    <th scope="col">Prix actuel</th>
+                                    <th scope="col">En stock</th>
+                                    <th scope="col">Image du produit</th>
+                                    <th scope="col">Vente flash</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <th scope="row">{{ item.id }}</th>
+                                    <td>{{ item.date_added }}</td>
+                                    <td>{{ item.product_name }}</td>
+                                    <td>{{ item.previous_price }}</td>
+                                    <td>{{ item.current_price }}</td>
+                                    <td>{{ item.in_stock }}</td>
+                                    <td><img src="{{ item.product_picture }}" alt="" style="height: 50px; width: 50px; border-radius: 2px;"></td>
+                                    <td>{{ item.flash_sale }}</td>
+                                    <td>
+                                        <a href="/update-item/{{ item.id }}"><i class="fas fa-edit"></i></a>
+                                        <a href="/delete-item/{{ item.id }}"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>  <div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>  <div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

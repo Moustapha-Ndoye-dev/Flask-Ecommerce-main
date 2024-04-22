@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %} Voir les commandes {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    Voir les commandes
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">ID de la commande</th>
+                                    <th scope="col">ID de paiement</th>
+                                    <th scope="col">Nom d'utilisateur</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Nom du produit</th>
+                                    <th scope="col">Prix</th>
+                                    <th scope="col">Quantité</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Statut</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.payment_id }}</td>
+                                    <td>{{ order.customer.username }}</td>
+                                    <td>{{ order.customer.email }}</td>
+                                    <td>{{ order.product.product_name }}</td>
+                                    <td>{{ order.price }}</td>
+                                    <td>{{ order.quantity }}</td>
+                                    <td><img src="{{ order.product.product_picture }}" alt="" style="height: 50px; width: 50px; border-radius: 2px;"></td>
+                                    <td>{{ order.status }}</td>
+                                    <td>
+                                        <a href="/update-order/{{ order.id }}"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>  <div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div><div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>  <div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div><div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>  <div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div><div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>  <div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div><div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+
+{% endblock %}

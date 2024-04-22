@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} Ajouter des articles {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                   Modifier des articles
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            <label for="product_name" class="form-label">Nom du produit</label>
+                            {{ form.product_name(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="previous_price" class="form-label">Ancien prix</label>
+                            {{ form.previous_price(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="current_price" class="form-label">Prix actuel</label>
+                            {{ form.current_price(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="in_stock" class="form-label">En stock</label>
+                            {{ form.in_stock(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="product_picture" class="form-label">Image du produit</label>
+                            {{ form.product_picture(class="form-control") }}
+                        </div>
+                        <div class="mb-3 form-check">
+                            {{ form.flash_sale(class="form-check-input", id="flash_sale") }}
+                            <label class="form-check-label" for="flash_sale">Vente Flash</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

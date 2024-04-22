@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %} Ajouter des articles {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    Ajouter des articles
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Nom du produit</label>
+                            {{ form.product_name(class="form-control", id="productName") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Catégorie</label>
+                            <select name="category" id="category" class="form-select">
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="previousPrice" class="form-label">Prix précédent</label>
+                            {{ form.previous_price(class="form-control", id="previousPrice") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="currentPrice" class="form-label">Prix actuel</label>
+                            {{ form.current_price(class="form-control", id="currentPrice") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="inStock" class="form-label">En stock</label>
+                            {{ form.in_stock(class="form-control", id="inStock") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPicture" class="form-label">Image du produit</label>
+                            {{ form.product_picture(class="form-control", id="productPicture") }}
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="flashSale" name="flashSale">
+                            <label class="form-check-label" for="flashSale">Vente flash</label>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100">Ajouter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

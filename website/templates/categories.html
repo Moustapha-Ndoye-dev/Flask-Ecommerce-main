@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Gérer les catégories {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 mt-3">
+            <a href="/add-category" class="btn btn-light">Ajouter une catégorie</a>
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    Liste des catégories
+                </div>
+                <div class="card-body">
+                    <div class="overflow-auto" style="max-height: 300px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Libellé</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                <tr>
+                                    <td>{{ category.name }}</td>
+                                    <td>
+                                        <!-- Bouton pour supprimer la catégorie -->
+                                        <form action="/delete-category/{{category.id}}" method="post">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie?');">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
