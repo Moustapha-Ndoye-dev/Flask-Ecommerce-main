@@ -32,8 +32,8 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <p class="mb-0"><span><strong>Ksh {{ item.product.current_price }}</strong></span></p>
-                                    <a href="" class="remove-cart btn btn-sm btn-secondary mr-3 " pid="{{item.id}}">Supprimer</a>
+                                    <p class="mb-0"><span><strong>{{ item.product.current_price }} FCFA</strong></span></p>
+                                    <a href="" style="color: rgb(255, 255, 255); background-color: black; border-color: black;" class="remove-cart btn btn-sm btn-secondary mr-3 " pid="{{item.id}}">Supprimer</a>
                                 </div>
                             </div>
                         </div>
@@ -64,13 +64,13 @@
                             <div style="margin-top: 15px;">
                                 <strong>Total</strong><small>(Frais inclus)</small>
                             </div>
-                            <span><strong>Ksh </strong><span id="totalamount"><strong>{{ total }}</strong></span></span>
+                            <span><strong></strong><span id="totalamount"><strong>{{ total }} FCFA</strong></span></span>
     
                         </li>
 
                     </ul>
 
-                    <div class="d-grid"><a href="/place-order" class="btn btn-primary">Commander</a></div>
+                    <div  class="d-grid"><a href="/place-order" class="btn btn-primary" style="color: white; background-color:  rgb(29, 116, 0); border-color:  rgb(29, 116, 0);">Commander</a></div>
 
                 </div>
             </div>
@@ -206,7 +206,13 @@
         <!-- Votre contenu existant ici -->
     </div>
 </div>
-</div><div class="container text-center">
+</div>
+<div class="container text-center">
+    <div class="row" style="margin: 10px;">
+        <!-- Votre contenu existant ici -->
+    </div>
+</div>
+<div class="container text-center">
     <div class="row" style="margin: 10px;">
         <!-- Votre contenu existant ici -->
     </div>

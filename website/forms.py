@@ -25,17 +25,17 @@ class PasswordChangeForm(FlaskForm):
     change_password = SubmitField('Changer le mot de passe')
 
 
-
 class ShopItemsForm(FlaskForm):
     product_name = StringField('Nom du produit', validators=[DataRequired()])
-    category = SelectField('Catégorie', coerce=int)  # Champ de sélection pour la catégorie
+    category = SelectField('Catégorie', coerce=int, validators=[DataRequired()])
     current_price = FloatField('Prix actuel', validators=[DataRequired()])
     previous_price = FloatField('Ancien Prix', validators=[DataRequired()])
     in_stock = IntegerField('Quantité', validators=[DataRequired(), NumberRange(min=0)])
-    product_picture = FileField('Photo du produit', validators=[DataRequired()])
+    product_picture = FileField('Photo du produit',validators=[FileRequired()])
     flash_sale = BooleanField('Vente flash')
     add_product = SubmitField('Ajouter le produit')
     update_product = SubmitField('Mise à jour')
+    
 
 class OrderForm(FlaskForm):
     order_status = SelectField('Statut de la commande', choices=[('En attente', 'En attente'), ('Acceptée', 'Acceptée'),

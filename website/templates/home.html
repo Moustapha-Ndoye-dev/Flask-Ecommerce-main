@@ -11,11 +11,13 @@
             <div class="col" style="margin: 3px; overflow-y: auto; max-height:410px;">
                 <div class="list-group" id="right1">
                     {% for category in categories%}
-                    <a href="{{ url_for('views.home', category_id=category.id) }}" class="list-group-item list-group-item-action">
+                    
+                    <a href="{{ url_for('views.home', category_id=category.id)}}#product-cards" class="list-group-item list-group-item-action">
                         <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                         <span class="link-name">{{ category.name }}</span>
                     </a>
                     {% endfor %}
+                  
                 </div>
             </div>
         </div>        
@@ -50,14 +52,14 @@
                     <img src="../static/images/payment.png" alt="" style="width: 30px; height: 30px; margin-left: -30px;">
                 </div>
                 <div class="col">
-                    <h6 style="font-family:'Times New Roman', Times, serif; font-size: 12px; margin-left: -40px; font-weight: 600;">VENDRE SUR AMAZON</h6>
+                    <h6 style="font-family:'Times New Roman', Times, serif; font-size: 12px; margin-left: -40px; font-weight: 600;">VENDRE SUR PANIER DU COIN</h6>
                     <p style="font-size: small; color: gray; margin-left: -30px; margin-top: -10px;">Programme FBA</p>
                 </div>
             </div>
         </div>
         <div class="row" style="margin-top: 12px;">
             <div class="col">
-                <img src="../static/images/right2.gif" alt="" class="right2">
+                <img src="../static/images/right.gif" alt="" class="right2">
             </div>
         
         </div>
@@ -87,8 +89,9 @@
  
     </div>
 </div>
+
 <!-- Contenu des cartes de produits -->
-<div class="container text-center mt-5">
+<div class="container text-center mt-5" id="product-cards">
     <div class="row" style="margin: 8px; background-color: rgb(219, 218, 218);" id="column">
         {% if items %}
             {% for item in items %}
@@ -103,7 +106,7 @@
                         <strike><p style="color: gray;">{{ item.previous_price }} FCFA</p></strike>
                     </div>
                     <div class="col">
-                        <a href="/add-to-cart/{{ item.id }}">Ajouter</a>
+                        <a style="color: rgb(255, 255, 255); background-color: black; border-color: black;" href="/add-to-cart/{{ item.id }}">Ajouter</a>
                     </div>
                 </div>
                 <div class="row">

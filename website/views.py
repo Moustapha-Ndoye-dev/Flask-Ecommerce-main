@@ -151,7 +151,7 @@ def place_order():
                 new_order = OneOrder()
                 new_order.quantity = item.quantity
                 new_order.price = item.product.current_price
-                new_order.status = create_order_response['invoice']['state'].capitalize()
+                new_order.status = ("En attente").capitalize()
                 new_order.payment_id = create_order_response['id']
                 new_order.product_link = item.product_link
                 new_order.customer_link = item.customer_link
@@ -179,6 +179,12 @@ def place_order():
 def order_views():
     orders = OneOrder.query.all()
     return render_template('view_orders.html', orders=orders)
+
+@views.route('/propos')
+@login_required
+def propos_views():
+
+    return render_template('propos.html')
 
 @views.route('/search', methods=['GET', 'POST'])
 def search():

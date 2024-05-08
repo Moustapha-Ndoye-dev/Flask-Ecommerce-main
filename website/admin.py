@@ -1,12 +1,12 @@
 from datetime import datetime
-from flask import Blueprint, app, render_template, flash, send_from_directory, redirect
+import os
+from flask import Blueprint, app, render_template, flash, send_from_directory, redirect, url_for
 from flask_login import login_required, current_user
 from .forms import CategoryForm, ShopItemsForm, OrderForm
 from werkzeug.utils import secure_filename
 from .models import Category, Product, OneOrder, Customer
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
-import os
 import sqlite3
 from . import db
 
@@ -18,36 +18,36 @@ from flask import send_from_directory
 
 @admin.route('/media/<path:filename>')
 def get_image(filename):
-    return send_from_directory('C:\\Users\\Leibou\\Pictures', filename)
+    return send_from_directory('c:\\Users\\bmd tech\\Pictures', filename)
+
 
 
 
 @admin.route('/add-shop-items', methods=['GET', 'POST'])
 @login_required
 def add_shop_items():
-    if current_user.id == 5:  # Vérifie si l'utilisateur est autorisé (à adapter selon tes besoins)
+    if current_user.id == 5:
         form = ShopItemsForm()
-
-        # Récupérer la liste des catégories depuis la base de données
         categories = Category.query.all()
         form.category.choices = [(str(category.id), category.name) for category in categories]
 
         if form.validate_on_submit():
+            # Récupérer les données du formulaire
             product_name = form.product_name.data
             current_price = form.current_price.data
             previous_price = form.previous_price.data
             in_stock = form.in_stock.data
             flash_sale = form.flash_sale.data
-            category_id = form.category.data  # Récupère l'ID de la catégorie sélectionnée à partir du formulaire
+            category_id = form.category.data
 
+            # Enregistrer l'image sur le serveur
             file = form.product_picture.data
-
             if file:
                 file_name = secure_filename(file.filename)
-                file_path = f'./media/{file_name}'
+                file_path = os.path.join('c:\\Users\\bmd tech\\Pictures', file_name)
                 file.save(file_path)
 
-                # Créer une nouvelle instance de Product
+                # Créer une nouvelle instance de Product avec le chemin de l'image
                 new_shop_item = Product(
                     product_name=product_name,
                     current_price=current_price,
@@ -55,18 +55,15 @@ def add_shop_items():
                     in_stock=in_stock,
                     flash_sale=flash_sale,
                     product_picture=file_path,
-                    date_added=datetime.utcnow()  # Ajouter la date actuelle
+                    date_added=datetime.utcnow()
                 )
 
                 try:
-                    # Ajouter le nouveau produit à la base de données
                     db.session.add(new_shop_item)
                     db.session.commit()
 
-                    # Récupérer l'objet Category associé à l'ID sélectionné
-                    category = Category.query.get(category_id)
-
                     # Ajouter la relation many-to-many entre le produit et la catégorie
+                    category = Category.query.get(category_id)
                     new_shop_item.categories.append(category)
                     db.session.commit()
 
@@ -78,7 +75,8 @@ def add_shop_items():
 
         return render_template('add_shop_items.html', form=form, categories=categories)
     else:
-        return render_template('404.html')  
+        return render_template('404.html')
+
 
 
 @admin.route('/shop-items', methods=['GET', 'POST'])
@@ -94,52 +92,57 @@ def shop_items():
 @admin.route('/update-item/<int:item_id>', methods=['GET', 'POST'])
 @login_required
 def update_item(item_id):
-    if current_user.id == 5 or 6:
-        form = ShopItemsForm()
+    # Vérifie si l'utilisateur actuel est autorisé à accéder à cette page
+    if current_user.id not in [5, 6]:
+        return render_template('404.html')
 
-        item_to_update = Product.query.get(item_id)
+    # Récupère l'élément à mettre à jour depuis la base de données
+    item_to_update = Product.query.get_or_404(item_id)
+    form = ShopItemsForm(obj=item_to_update)
 
-        form.product_name.render_kw = {'placeholder': item_to_update.product_name}
-        form.previous_price.render_kw = {'placeholder': item_to_update.previous_price}
-        form.current_price.render_kw = {'placeholder': item_to_update.current_price}
-        form.in_stock.render_kw = {'placeholder': item_to_update.in_stock}
-        form.flash_sale.render_kw = {'placeholder': item_to_update.flash_sale}
+    # Charge les catégories disponibles depuis la base de données
+    categories = Category.query.all()
+    # Crée une liste de tuples (id, nom) pour les choix du champ de sélection de catégorie
+    category_choices = [(category.id, category.name) for category in categories]
+    # Ajoute les choix au champ de sélection de catégorie
+    form.category.choices = category_choices
 
-        if form.validate_on_submit():
-            product_name = form.product_name.data
-            current_price = form.current_price.data
-            previous_price = form.previous_price.data
-            in_stock = form.in_stock.data
-            flash_sale = form.flash_sale.data
+    if form.validate_on_submit():
+        # Récupère les données du formulaire
+        product_name = form.product_name.data
+        current_price = form.current_price.data
+        previous_price = form.previous_price.data
+        in_stock = form.in_stock.data
+        flash_sale = form.flash_sale.data
+        category_id = form.category.data  # Récupère l'ID de la catégorie sélectionnée
 
-            file = form.product_picture.data
-
+        # Gère le fichier de la photo du produit
+        file = form.product_picture.data
+        if file:
             file_name = secure_filename(file.filename)
             file_path = f'./media/{file_name}'
-
             file.save(file_path)
+            item_to_update.product_picture = file_path
 
-            try:
-                Product.query.filter_by(id=item_id).update(dict(product_name=product_name,
-                                                                current_price=current_price,
-                                                                previous_price=previous_price,
-                                                                in_stock=in_stock,
-                                                                flash_sale=flash_sale,
-                                                                product_picture=file_path))
+        # Met à jour les attributs de l'objet existant
+        item_to_update.product_name = product_name
+        item_to_update.current_price = current_price
+        item_to_update.previous_price = previous_price
+        item_to_update.in_stock = in_stock
+        item_to_update.flash_sale = flash_sale
+        item_to_update.category_id = category_id  # Met à jour la catégorie
 
-                db.session.commit()
-                flash(f'{product_name} mis a jour avec succés')
-                print('Produit mis a jour')
-                return redirect('/shop-items')
-            except Exception as e:
-                print('Produit non mis a jour', e)
-                flash('Produit mis a jour!')
+        # Enregistre les modifications dans la base de données
+        try:
+            db.session.commit()
+            flash(f'{product_name} mis à jour avec succès', 'success')
+            print('Produit mis à jour')
+            return redirect(url_for('shop_items'))  # Redirige vers la liste des produits
+        except Exception as e:
+            print('Produit non mis à jour', e)
 
-        return render_template('update_item.html', form=form)
-    return render_template('404.html')
-
-
-
+    return render_template('update_item.html', form=form)
+    
 
 
 

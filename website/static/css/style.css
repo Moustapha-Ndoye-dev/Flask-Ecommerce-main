@@ -9,6 +9,12 @@
     border: 2px solid rgb(228, 150, 7);
 }
 
+.green-icon {
+   color: aquamarine;
+}
+
+
+
 #right1 :hover{
     color: orange;
     transition: 300ms;

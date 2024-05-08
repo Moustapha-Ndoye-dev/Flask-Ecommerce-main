@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Ajouter des articles {% endblock %}
+{% block title %} Modifier des articles {% endblock %}
 
 {% block body %}
 
@@ -18,6 +18,11 @@
                             <label for="product_name" class="form-label">Nom du produit</label>
                             {{ form.product_name(class="form-control") }}
                         </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Catégorie</label>
+                            {{ form.category(class="form-select", id="category") }} {# Utilisez "form-select" pour les champs de sélection Bootstrap #}
+                        </div>
+                        
                         <div class="mb-3">
                             <label for="previous_price" class="form-label">Ancien prix</label>
                             {{ form.previous_price(class="form-control") }}
