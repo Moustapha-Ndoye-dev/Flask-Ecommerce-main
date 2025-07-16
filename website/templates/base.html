@@ -4,20 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Liens vers les fichiers CSS et JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <title>{% block title %} {% endblock %}</title>
+    <title>{% block title %} {% endblock %} - LeibouGui Shop</title>
 </head>
-<body style="background-color: rgb(29, 116, 0);">
+<body>
 
     <!-- Barre de navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">
-                <img src="../static/images/logo bi.png" alt="" style="width: 80px;height: 50px;">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="../static/images/logo bi.png" alt="LeibouGui Shop" style="width: 50px; height: 32px; margin-right: 0.75rem;">
+                <span>LeibouGui Shop</span>
             </a>            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -25,66 +31,97 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/" style="font-family: cursive; font-size: 19px;"></a>
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/propos" style="font-size: 17px;">À propos de nous</a>
+                        <a class="nav-link" href="/propos">
+                            <i class="fas fa-info-circle me-1"></i>À propos
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="font-size: 16px;">Contactez-nous</a>
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
                     </li>
                 </ul>
+                
+                <!-- Barre de recherche -->
                 <form class="d-flex me-3" role="search" action="/search" method="POST">
-                    <input  class="form-control me-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit" style="color: rgb(255, 255, 255); background-color: black; border-color: black;">Rechercher</button>
+                    <div class="input-group">
+                        <input class="form-control" name="search" type="search" placeholder="Rechercher un produit..." aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </form>
+                
                 <ul class="navbar-nav mb-2 mb-lg-0">
+                    <!-- Panier -->
                     <li class="nav-item mx-2">
-                        {% if cart | length < 1 %}
-                        <a class="nav-link" href="/cart">Panier <i class="fas fa-shopping-cart"></i></a>
-                        {% else %}
-                        <a class="nav-link" href="/cart">Panier <i class="fas fa-shopping-cart"></i> <span class="badge bg-success">{{ cart | length }}</span></a>
-                        {% endif %}
-                    </li>
-                    <li class="nav-item dropdown mx-2">
-                        <a class="nav-link dropdown-toggle" href="#" role="button", id="profileDropdown" 
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                            Compte <i class="fas fa-user"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            {% if current_user.is_authenticated %}
-                            <li><a class="dropdown-item" href="/profile/{{ current_user.id }}"><i class="fas fa-user"></i> Profil</a></li>
-                            <li><a class="dropdown-item" href="/orders"><i class="fas fa-shopping-bag"></i> Commandes</a></li>
-                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                            {% else %}
-                            <li><a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                        <a class="nav-link position-relative" href="/cart">
+                            <i class="fas fa-shopping-cart me-1"></i>Panier
+                            {% if cart | length > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ cart | length }}
+                            </span>
                             {% endif %}
-                        </ul>
-                    </li>
-                    <!-- Lien du Panneau Admin -->
-                    {% if current_user.is_authenticated and current_user.id in [5, 6] %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin.admin_page') }}">
-                            <i class="fas fa-cogs"></i> Panneau Admin
                         </a>
                     </li>
                     
+                    <!-- Menu utilisateur -->
+                    <li class="nav-item dropdown mx-2">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="profileDropdown" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user me-1"></i>
+                            {% if current_user.is_authenticated %}
+                                {{ current_user.username }}
+                            {% else %}
+                                Compte
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown">
+                            {% if current_user.is_authenticated %}
+                            <li><a class="dropdown-item" href="/profile/{{ current_user.id }}">
+                                <i class="fas fa-user me-2"></i>Mon Profil
+                            </a></li>
+                            <li><a class="dropdown-item" href="/orders">
+                                <i class="fas fa-shopping-bag me-2"></i>Mes Commandes
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="/logout">
+                                <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                            </a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="/login">
+                                <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                            </a></li>
+                            <li><a class="dropdown-item" href="/sign-up">
+                                <i class="fas fa-user-plus me-2"></i>Inscription
+                            </a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    
+                    <!-- Panneau Admin -->
+                    {% if current_user.is_authenticated and current_user.id in [5, 6] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.admin_page') }}">
+                            <i class="fas fa-cogs me-1"></i>Admin
+                        </a>
+                    </li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
-    
-    
-
-    
-    
-    
 
     <!-- Messages flash -->
     <div class="container mt-3">
         {% for message in get_flashed_messages() %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
             <strong>{{ message }}</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -92,29 +129,34 @@
     </div>
 
     <!-- Contenu principal -->
-    <div class="container">
+    <main class="container-fluid">
         {% block body %}
         {% endblock %}
-    </div>
+    </main>
 
-    <style>
-        /* Styles pour le pied de page */
-        footer {
-            bottom: 0;
-            width: 100%;
-            background-color: white;
-            color: dark;
-            padding: 10px 0;
-            text-align: center;
-        }
-    </style>
-    
-    <footer class="container-fluid text-center py-2 mt-5">
-        <div>
-            <a href="#" style="color: white;"></a><img src="../static/images/logo bi.png" alt="" style="width: 80px;height: 50px;"> | <span>Leibou-dev 2024 Tous droits réservés</span>
+    <!-- Pied de page -->
+    <footer class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="../static/images/logo bi.png" alt="LeibouGui Shop" style="width: 50px; height: 32px; margin-right: 1rem;">
+                        <h5 class="mb-0">LeibouGui Shop</h5>
+                    </div>
+                    <p class="mb-0">Votre destination de choix pour des achats en ligne de qualité.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="mb-3">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <p class="mb-0">&copy; 2024 Leibou-dev. Tous droits réservés.</p>
+                </div>
+            </div>
         </div>
     </footer>
-    
 
     <!-- Liens vers les fichiers JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

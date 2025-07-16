@@ -1,35 +1,36 @@
 {% extends 'forms.html' %}
 
-{% block title %} Connexion {% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
 
-<!-- Section de connexion commence ici -->
-
-<section class="base" id="base-signup">
+<!-- Section de connexion -->
+<section class="base">
     <div class="base-content">
         <div class="form">
-            <h3>
-                Connectez-vous pour commencer <br> vos achats
-            </h3>
-            
+            <h3>Connectez-vous à votre compte</h3>
             <hr class="first">
+            
             <form method="POST">
                 {{ form.hidden_tag() }}
 
-                <div class="email"><h4>Adresse e-mail</h4>{{ form.email }} <hr></div>
-                <div class="password"><h4>Mot de passe</h4>{{ form.password }} <hr></div>
-
-                <div class="buttons">
-                    <a href="/sign-up"> S'inscrire</a>
-                    {{ form.submit() }}
+                <div class="email">
+                    <h4>Adresse e-mail</h4>
+                    {{ form.email(placeholder="Entrez votre adresse e-mail") }}
+                </div>
+                
+                <div class="password">
+                    <h4>Mot de passe</h4>
+                    {{ form.password(placeholder="Entrez votre mot de passe") }}
                 </div>
 
-
+                <div class="buttons">
+                    {{ form.submit(value="Se connecter") }}
+                    <a href="/sign-up">Créer un compte</a>
+                </div>
             </form>
         </div>
     </div>
 </section>
-
 
 {% endblock %}
